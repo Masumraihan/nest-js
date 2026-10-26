@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -11,7 +12,6 @@ import {
 } from '@nestjs/common';
 import type { Request } from 'express';
 import { CreateUserDto } from './dtos/user-create.dto';
-import { UpdateUserDto } from './dtos/user-update.dto';
 import { UserService } from './users.service';
 
 // http://localhost:3000/users
@@ -35,7 +35,7 @@ export class UserController {
     params: number,
   ) {
     console.log(typeof params, params);
-    return this.userService.getUserById();
+    return this.userService.getUserById(params);
   }
 
   @Post()
@@ -44,7 +44,18 @@ export class UserController {
   }
 
   @Patch()
-  updateUser(@Body() user: UpdateUserDto) {
+  updateUser(@Body() user: any) {
     console.log(user);
+  }
+
+  @Delete(':id')
+  async hardDeleteUser(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: number,
+  ) {
+    return await this.userService.hardDeleteUser(id);
   }
 }

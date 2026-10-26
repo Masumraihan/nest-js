@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './users/users.module';
-import { TweetModule } from './tweet/tweet.module';
 import { AuthModule } from './auth/auth.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from './users/user.entity';
+import { HashtagModule } from './hashtag/hashtag.module';
+import { ProfileModule } from './profile/profile.module';
+import { TweetModule } from './tweet/tweet.module';
+import { UserModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -27,12 +28,14 @@ import { User } from './users/user.entity';
         autoLoadEntities: true,
         synchronize: true,
         //entities: ['dist/**/*.entity{.ts,.js}'],
-        entities: [User],
+        //entities: [User],
       }),
     }),
     UserModule,
     TweetModule,
     AuthModule,
+    ProfileModule,
+    HashtagModule,
   ],
   controllers: [AppController],
   providers: [AppService],

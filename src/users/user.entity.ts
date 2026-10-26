@@ -1,4 +1,15 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Profile } from 'src/profile/profile.entity';
+import { Tweet } from 'src/tweet/tweet.enity';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -8,16 +19,10 @@ export class User {
   @Column({
     type: 'varchar',
     nullable: false,
-    length: 50,
+    length: 24,
+    unique: true,
   })
-  firstName!: string;
-
-  @Column({
-    type: 'varchar',
-    nullable: false,
-    length: 50,
-  })
-  lastName!: string;
+  username!: string;
 
   @Column({
     type: 'varchar',
@@ -40,4 +45,21 @@ export class User {
     length: 50,
   })
   password!: string;
+
+  @OneToOne(() => Profile, (profile) => profile.user, {
+    eager: true,
+  })
+  profile?: Profile;
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
+
+  @DeleteDateColumn()
+  deletedAt!: Date;
+
+  @OneToMany(() => Tweet, (tweet) => tweet.user, { eager: true })
+  tweets!: Tweet[];
 }
