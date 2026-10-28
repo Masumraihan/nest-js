@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
@@ -42,7 +41,7 @@ export class TweetService {
   }
   async updateTweet(payload: UpdateTweetDto) {
     const { id, hashTags: hashTagIds, userId, ...updatedData } = payload;
-
+    console.log(userId);
     // find tweet
     const tweet = await this.tweetRepository.findOne({
       where: { id },
@@ -65,16 +64,5 @@ export class TweetService {
   async deleteTweet(id: number) {
     await this.tweetRepository.delete({ id });
     return { deleted: true, id };
-=======
-import { Injectable } from '@nestjs/common';
-import { UserService } from 'src/users/users.service';
-
-@Injectable()
-export class TweetService {
-  constructor(private readonly userService: UserService) {}
-
-  getTweets(userId?: number) {
-    console.log(userId);
->>>>>>> 29fcd0b23721218fe9b75d09db625652744b00f3
   }
 }

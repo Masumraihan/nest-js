@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { HashTag } from './hashtag.entity';
 import { In, Repository } from 'typeorm';
 import { CreateHashTagDto } from './dto/createHashtag.dto';
+import { HashTag } from './hashtag.entity';
 
 @Injectable()
 export class HashtagService {
@@ -11,6 +11,9 @@ export class HashtagService {
     private readonly hashtagRepository: Repository<HashTag>,
   ) {}
 
+  public async getAllHashTags() {
+    return await this.hashtagRepository.find();
+  }
   public async createHashTag(payload: CreateHashTagDto) {
     const hashTag = this.hashtagRepository.create(payload);
     return await this.hashtagRepository.save(hashTag);
@@ -20,5 +23,8 @@ export class HashtagService {
   }
   public async deleteHashTag(id: number) {
     return await this.hashtagRepository.delete({ id });
+  }
+  public async softDeleteHashTag(id: number) {
+    return await this.hashtagRepository.softDelete({ id });
   }
 }

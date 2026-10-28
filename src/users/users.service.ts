@@ -3,17 +3,13 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dtos/user-create.dto';
-<<<<<<< HEAD
 import { Profile } from 'src/profile/profile.entity';
-=======
->>>>>>> 29fcd0b23721218fe9b75d09db625652744b00f3
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-<<<<<<< HEAD
 
     @InjectRepository(Profile)
     private profileRepository: Repository<Profile>,
@@ -30,23 +26,10 @@ export class UserService {
   }
 
   public async createUser(user: CreateUserDto) {
-=======
-  ) {}
-
-  async getUsers() {
-    const users = await this.userRepository.find();
-    return users;
-  }
-  getUserById() {}
-
-  public async createUser(user: CreateUserDto) {
-    console.log('here');
->>>>>>> 29fcd0b23721218fe9b75d09db625652744b00f3
     // validate if a user exist with given email
     const existUser = await this.userRepository.findOne({
       where: { email: user.email },
     });
-<<<<<<< HEAD
 
     if (existUser) {
       return { message: 'User already exist with this email' };
@@ -84,17 +67,4 @@ export class UserService {
     }
     return { deleted: true };
   }
-=======
-    console.log(existUser);
-
-    if (existUser) {
-      return { message: 'User already exist' };
-    }
-
-    const newUser = this.userRepository.create(user);
-
-    const result = await this.userRepository.save(newUser);
-    return result;
-  }
->>>>>>> 29fcd0b23721218fe9b75d09db625652744b00f3
 }
